@@ -1,0 +1,332 @@
+\documentclass[a4j,here,10pt,oneside,openany]{jsbook}
+%
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{ascmac}
+\usepackage{makeidx}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{wrapfig}
+\usepackage{fancybox}
+\usepackage{colortbl}
+\usepackage{here}
+\usepackage{xcolor,colortbl}
+\usepackage{enumitem}
+%
+\makeindex
+%
+\newcommand{\diff}{\mathrm{d}}  %微分記号
+\newcommand{\divergence}{\mathrm{div}\,}  %ダイバージェンス
+\newcommand{\grad}{\mathrm{grad}\,}  %グラディエント
+\newcommand{\rot}{\mathrm{rot}\,}  %ローテーション
+%
+\setlength{\textwidth}{\fullwidth}
+\setlength{\textheight}{44\baselineskip}
+\addtolength{\textheight}{\topskip}
+\setlength{\voffset}{-0.6in}
+%
+\title{{\Huge \textbf{チームAID Python勉強録}}\\ {\small Ver. 0.0.1}}
+\author{井上裕太\\ \texttt{http://y-ino.com}}
+\date{\today}
+\begin{document}
+
+%
+%
+\maketitle
+\frontmatter
+\tableofcontents
+%
+%
+\mainmatter
+\chapter{環境構築}
+\subsection{Mac}
+http://qiita.com/WizowozY/items/4c0b1c0dc93017855429 $<$- ここを見てください
+\chapter{基礎文法編　第一回(2014/1/16)}
+\begin{abstract}
+\end{abstract}
+\section{コメント}
+\begin{framed}
+\begin{verbatim}
+'''
+この部分はドキュメント文字列として解釈される
+一応複数行コメント
+'''
+
+while True:
+'''
+これはエラー（インデントがない）
+'''
+
+while True:
+    '''
+    これはおっけー
+    '''
+
+# コメント
+spma = 'ham' # コメント
+\end{verbatim}
+\end{framed}
+
+\subsection{スクリプト構造}\label{ux30b9ux30afux30eaux30d7ux30c8ux69cbux9020}
+\begin{framed}
+\begin{verbatim}
+#コメント
+spam = 'ham' #コメント
+
+printf(1+1);printf('hello') #一行で複数処理を書く場合は「;」で区切る
+
+'spam' + (  #括弧（）,[],{}で囲まれている部分ならば、その内側では自由に改行できる
+   'ham' + 'egg')
+
+#インデントによるブロック
+def foo(a):
+    if a > 100:
+        return 1
+    else:
+        return 0
+#コーディング規約ではインデントはスペース4つ分
+\end{verbatim}
+\end{framed}
+\subsection{比較演算子}\label{ux6bd4ux8f03ux6f14ux7b97ux5b50}
+
+\begin{table}[htb]
+  \begin{tabular}{|l|l|}
+  \hline
+  \rowcolor[rgb]{0.85,1.0,1.0}演算子 & 比較条件\\
+  \hline
+  x is y & xとyは同じオブジェクト\\
+  \hline
+  x is not y & xとyは同じオブジェクトではない\\
+  \hline
+  x in y & xはyに含まれる)\\
+  \hline
+  x not in y & xはyに含まれない\\
+  \hline
+  \end{tabular}
+\end{table}
+
+\subsection{辞書オブジェクト}
+連想配列、ハッシュテーブル
+
+\{キー:値,キー:値,\ldots{}\}
+\begin{framed}
+\begin{verbatim}
+>>> {1:'one',2:'two'}
+{1: 'one', 2: 'two'}
+
+>>> d = {1:'one',2:'two'}
+>>> d[1] #要素へのアクセスはブラケット演算子
+'one'
+
+>>> del d[1] #要素の削除はdel文で行う
+\end{verbatim}
+\end{framed}
+\subsection{リストとタプル}
+
+タプル :
+更新不能なオブジェクトで、あとから要素を追加したり変更したりできない（辞書のキーとして使用）
+リスト : 更新可能なオブジェクト、辞書のキーとしては指定できない
+
+リスト {[}要素,要素,要素,\ldots{}{]}
+\begin{framed}
+\begin{verbatim}
+l = [1,2,3]
+l = []
+l = [1,'two',[3,4,5]]
+\end{verbatim}
+\end{framed}
+タプル 要素,要素,要素,\ldots{}
+\begin{framed}
+\begin{verbatim}
+t = (1,2,3)
+t = 1,2,3
+t = ()
+t = (1,'two',[3,4,5])
+\end{verbatim}
+\end{framed}
+\subsection{シーケンスのアクセス}
+
+シーケンス : 文字列、リスト、タプルなどの配列のこと {[}{]}でアクセスする
+\begin{framed}
+\begin{verbatim}
+>>> s = 'abcdefg'
+>>> s[0]
+'a'
+>>> s[-1] # 後ろからの位置（最後から1番目 => 一番後ろ）
+'g'
+>>> s[1:4] # [開始位置:終了位置] 開始<=　要素 <終了
+'bcd'
+>>> s[-3:-1]
+'ef'
+>>> s[:3] # 開始、終了のどちらかを省略すると、シーケンスの先頭、末尾までを意味する
+\end{verbatim}
+\end{framed}
+\subsection{イテラブルオブジェクト}
+\begin{framed}
+\begin{verbatim}
+for 変数名 in 式:
+    ...
+    ...
+\end{verbatim}
+\end{framed}
+\begin{framed}
+\begin{verbatim}
+l = [1,2,3]
+for i in l: #iにlの要素が一つずつ代入される
+    print(i)
+
+----
+import sys
+for line in sys.stdin:#標準入出力から一行ずつ読み込む
+    print(line,end='')
+\end{verbatim}
+\end{framed}
+\subsection{関数}\label{ux95a2ux6570}
+\begin{framed}
+\begin{verbatim}
+def 関数名(引数リスト):
+    ...
+    ...
+\end{verbatim}
+\end{framed}
+\subsection{クラス}\label{ux30afux30e9ux30b9}
+\begin{framed}
+\begin{verbatim}
+class クラス名:
+    def __init__(self,引数,...): #コンストラクタ
+        ...
+        ...
+    def メソッド名(self,引数,...):
+        ...
+        ...
+\end{verbatim}
+
+メソッドの第一引数は、必ずメソッドが属するオブジェクトを受け取る
+
+\begin{verbatim}
+class Spam:
+    def ham(self,egg,bacon):
+        ...
+        ...
+
+obj = Spam()
+obej.ham(arg1,arg2) # self<-obj,egg<-arg1,bacon<-arg2
+\end{verbatim}
+\end{framed}
+インスタンスの属性値は、インスタンス.属性名で指定して代入するだけで作成される
+=\textgreater{} 事前に定義する必要性はない
+
+\subsection{モジュール}\label{ux30e2ux30b8ux30e5ux30fcux30eb}
+
+組み込み関数、組み込み型 =\textgreater{} いつでも使える モジュール
+=\textgreater{} 一般のライブラリ
+\begin{framed}
+\begin{verbatim}
+import math #mathモジュールをインポート
+\end{verbatim}
+\end{framed}
+\subsection{入出力}\label{ux5165ux51faux529b}
+\begin{framed}
+\begin{verbatim}
+>>> text = input()
+spam
+>>> text
+'spam'
+
+>>> input('好きな食べ物は?:')
+好きな食べ物は？: Spam
+'Spam'
+\end{verbatim}
+\end{framed}
+\subsection{ステートメント}\label{ux30b9ux30c6ux30fcux30c8ux30e1ux30f3ux30c8}
+
+\subsubsection{pass文}\label{passux6587}
+
+何もしない文、文法上なにか必要だが何も書くことがないときに使ったりする
+\begin{framed}
+\begin{verbatim}
+>>> if spam:
+>>>     if ham:
+# これだとエラー
+
+>>> if spam:
+>>>     pass # 何もしない
+>>> if ham: pass
+\end{verbatim}
+\end{framed}
+\subsubsection{while文}\label{whileux6587}
+\begin{framed}
+\begin{verbatim}
+while 条件式:
+    ...
+    ...
+    ...
+else:   # whileループを抜けたあとに実行される
+    ...
+\end{verbatim}
+\end{framed}
+\subsubsection{range(stop)、range(start,stop{[},step{]})}\label{rangestoprangestartstopstep}
+
+初期値startに、増分値stepを加算した数列のイテレータを返す
+for文のループで使う * start 最初の数値を指定する、省略時は0 * stop
+増分値stepが正の値なら数列の上限、負の値なら下限値を指定する * step
+数値の増分を指定する、省略時は1となる
+
+\begin{verbatim}
+>>> for i in range(10): # 0 to 9のループ
+>>>     ...
+
+>>> number = lsit(range(100)) # 0〜99のリストを作る
+\end{verbatim}
+
+\subsubsection{例外処理}\label{ux4f8bux5916ux51e6ux7406}
+\begin{framed}
+\begin{verbatim}
+try:
+    ...
+except [式 as 変数名]:
+    ...
+else:       # エラーが発生しなかったときに最後に実行される
+    ...
+finally:    # エラー発生の有無にかかわらず実行される
+    ...
+\end{verbatim}
+\end{framed}
+例外を発生させるのはraise(throwではない) raise
+ValueError(`値が不正です')
+
+\subsubsection{assert文}
+
+assert文は実行時にデータや条件の整合性をチェックし、問題がないことを確認するときに使用する\\
+
+assert 式$[$,式$]$\\
+
+assert文に指定した式が偽となった場合、AssertError例外を送出して、処理を中断する\\
+\subsubsection{with文}
+
+ファイルオブジェクトを処理するとき、
+\begin{framed}
+\begin{verbatim}
+fileobj = open(filename,'w')
+try:
+    do_something(fileobj)
+finally:
+    fileobj.close()
+\end{verbatim}
+\end{framed}
+ファイルオブジェクトへの書き込みを確実にファイルに反映するためには、必ずtry〜finallyブロックを使って、open()したファイルをfile.close()する処理を書かなければならない
+with文はこのようなパターンを簡単に実装するためのブロック
+\begin{framed}
+\begin{verbatim}
+with open(filename,'w') as fileobj:
+    do_something(fileobj)
+\end{verbatim}
+\end{framed}
+上のコードと同義
+
+with文から初期化処理と終了処理を呼び出すインターフェースを持ったオブジェクトを、コンテキストマネージャーと呼ぶ
+コンテキストマネージャーには、fileオブジェクト、socketオブジェクト、Lockオブジェクトなどがある
+
+\end{document}
